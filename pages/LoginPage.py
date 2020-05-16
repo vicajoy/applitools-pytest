@@ -1,3 +1,6 @@
+from selenium.common.exceptions import NoSuchElementException
+
+
 class LoginPage:
 
     __page_title = ".auth-header"
@@ -24,42 +27,47 @@ class LoginPage:
         return self.driver.find_element_by_xpath(LoginPage.__username_label).text
 
     def is_username_icon_visible(self):
-        if self.driver.find_element_by_css_selector(LoginPage.__username_icon):
-            return True
-        else:
+        try:
+            if self.driver.find_element_by_css_selector(LoginPage.__username_icon).is_displayed():
+                return True
+        except NoSuchElementException:
             return False
 
     def password_label(self):
         return self.driver.find_element_by_xpath(LoginPage.__password_label).text
 
     def is_password_icon_visible(self):
-        if self.driver.find_element_by_css_selector(LoginPage.__password_icon):
-            return True
-        else:
+        try:
+            if self.driver.find_element_by_css_selector(LoginPage.__password_icon).is_displayed():
+                return True
+        except NoSuchElementException:
             return False
 
     def is_twitter_icon_visible(self):
-        if self.driver.find_element_by_css_selector(LoginPage.__twitter_icon):
-            return True
-        else:
+        try:
+            if self.driver.find_element_by_css_selector(LoginPage.__twitter_icon).is_displayed():
+                return True
+        except NoSuchElementException:
             return False
 
     def is_facebook_icon_visible(self):
-        if self.driver.find_element_by_css_selector(LoginPage.__facebook_icon):
+        if self.driver.find_element_by_css_selector(LoginPage.__facebook_icon).is_displayed():
             return True
         else:
             return False
 
     def is_linkedin_icon_visible(self):
-        if self.driver.find_element_by_css_selector(LoginPage.__facebook_icon):
-            return True
-        else:
+        try:
+            if self.driver.find_element_by_css_selector(LoginPage.__facebook_icon).is_displayed():
+                return True
+        except NoSuchElementException:
             return False
 
     def is_remember_me_visible(self):
-        if self.driver.find_element_by_css_selector(LoginPage.__remember_me):
-            return True
-        else:
+        try:
+            if self.driver.find_element_by_css_selector(LoginPage.__remember_me).is_displayed():
+                return True
+        except NoSuchElementException:
             return False
 
     def login_user(self, username, password):
