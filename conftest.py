@@ -1,4 +1,8 @@
+import os
+
 import pytest
+from applitools.common import BatchInfo, MatchLevel, StitchMode, DiffsFoundError
+from applitools.selenium import ClassicRunner, Eyes
 from selenium import webdriver
 
 
@@ -10,7 +14,7 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def browser(request):
-    """Initiates the browser"""
+    """Initiates the browser."""
     browser = request.config.getoption("--browser")
     url = request.config.getoption("--url")
     if browser == "chrome":
@@ -23,3 +27,33 @@ def browser(request):
         raise Exception(f"{request.param} is not supported!")
     yield driver
     driver.quit()
+
+
+@pytest.fixture
+def url(request):
+    url = request.config.getoption("--url")
+    return url
+
+
+@pytest.fixture(scope="module")
+def batch_info():
+    """Use one BatchInfo for all tests inside module."""
+    return BatchInfo("Applitools Demo Visual Tests")
+
+
+@pytest.fixture(name="runner", scope="session")
+def runner_setup():
+    """One test runner for all tests. Print test results in the end of execution."""
+    runner = ClassicRunner()
+    yield runner
+
+
+@pytest.fixture(name="eyes", scope="function")
+def eyes_setup(runner, batch_info, request):
+    """Basic Eyes setup. It'll abort test if wasn't closed properly."""
+    eyes = Eyes(runner)
+    eyes.api_key = os.getenv("APPLITOOLS_API_KEY")
+    eyes.configure.batch = batch_info
+    eyes.configure.match_level = MatchLevel.STRICT
+    eyes.configure.set_stitch_mode(StitchMode.CSS)
+    yield eyes

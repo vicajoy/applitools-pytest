@@ -1,10 +1,16 @@
 class HomePage:
+
     __logo = "//div[@class='logo-label'][contains(text(), 'ACME')]"
+    __table = "#transactionsTable"
     __amount_header = "#amount"
     __table_amounts = "//td[@class='text-right bolder nowrap']/span"
+    __compare_expenses_btn = "#showExpensesChart"
 
     def __init__(self, driver):
         self.driver = driver
+
+    def go_to_page(self, url):
+        return self.driver.get(url)
 
     def is_logo_visible(self):
         if self.driver.find_element_by_xpath(HomePage.__logo):
@@ -39,3 +45,5 @@ class HomePage:
                 are_amounts_equal = True
         return are_amounts_equal
 
+    def compare_expenses(self):
+        self.driver.find_element_by_css_selector(HomePage.__compare_expenses_btn).click()
