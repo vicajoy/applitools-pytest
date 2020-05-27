@@ -1,3 +1,4 @@
+import pytest
 from pages import LoginPage, HomePage, ExpensesPage
 
 
@@ -7,18 +8,24 @@ def test_login_form(browser, eyes):
     eyes.close()
 
 
-def test_data_driven(browser, eyes):
+@pytest.mark.parametrize("username, password, screenshot_title",
+                         [("", "", "Username and password are not entered"),
+                          ("user", "", "Password is not entered"), ("", "pass", "Username is not entered"),
+                          ("", "pass", "Login successfully")])
+def test_data_driven(browser, eyes, username, password, screenshot_title):
     eyes.open(browser, "Applitools Demo", "Data Driven Test")
     login_page = LoginPage(browser)
-    login_page.login_user("", "")
-    eyes.check_window("Username and password are not entered")
-    login_page.login_user("aaa", "")
-    eyes.check_window("Password is not entered")
-    login_page.login_user("", "aaa")
-    eyes.check_window("Username is not entered")
-    login_page.login_user("aaa", "aaa")
-    eyes.check_window("Login successfully")
+    login_page.login_user(username, password)
+    eyes.check_window(screenshot_title)
     eyes.close()
+
+
+def test_data_driven(browser, username, password, expected_message):
+    login_page = LoginPage(browser)
+    login_page.login_user(username, password)
+    assert login_page.login_error_message() == expected_message
+    login_page.login_user("user", "pass")
+    assert HomePage(browser).is_logo_visible() is True
 
 
 def test_table_sort(browser, eyes):
