@@ -22,8 +22,6 @@ def test_data_driven(browser, username, password, expected_message):
     login_page = LoginPage(browser)
     login_page.login_user(username, password)
     assert login_page.login_error_message() == expected_message
-    login_page.login_user("user", "pass")
-    assert HomePage(browser).is_logo_visible() is True
 
 
 def test_table_sort(browser):

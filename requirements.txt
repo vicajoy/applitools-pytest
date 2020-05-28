@@ -1,4 +1,4 @@
-allure-pytest==2.8.13
 pytest==5.4.1
 selenium==3.141.0
+pytest-xdist==1.32.0
 eyes-selenium==4.1.25

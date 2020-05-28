@@ -1,7 +1,7 @@
 import os
 
 import pytest
-from applitools.common import BatchInfo, MatchLevel, StitchMode, DiffsFoundError
+from applitools.common import BatchInfo, MatchLevel, StitchMode
 from applitools.selenium import ClassicRunner, Eyes
 from selenium import webdriver
 
@@ -23,8 +23,13 @@ def browser(request):
     elif browser == "firefox":
         driver = webdriver.Firefox(executable_path='drivers/geckodriver')
         driver.get(url)
+    elif browser == "headless chrome":
+        options = webdriver.ChromeOptions()
+        options.add_argument('headless')
+        driver = webdriver.Chrome(options=options, executable_path='drivers/chromedriver')
+        driver.get(url)
     else:
-        raise Exception(f"{request.param} is not supported!")
+        raise Exception(f"{request.param} is not supported.")
     yield driver
     driver.quit()
 
