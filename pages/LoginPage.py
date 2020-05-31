@@ -28,48 +28,25 @@ class LoginPage:
         return self.driver.find_element(*self.__username_label).text
 
     def is_username_icon_visible(self):
-        try:
-            if self.driver.find_element(*self.__username_icon).is_displayed():
-                return True
-        except NoSuchElementException:
-            return False
+        return self.driver.find_element(*self.__username_icon).is_displayed()
 
     def password_label(self):
         return self.driver.find_element(*self.__password_label).text
 
     def is_password_icon_visible(self):
-        try:
-            if self.driver.find_element(*self.__password_icon).is_displayed():
-                return True
-        except NoSuchElementException:
-            return False
+        return self.driver.find_element(*self.__password_icon).is_displayed()
 
     def is_twitter_icon_visible(self):
-        try:
-            if self.driver.find_element(*self.__twitter_icon).is_displayed():
-                return True
-        except NoSuchElementException:
-            return False
+        return self.driver.find_element(*self.__twitter_icon).is_displayed()
 
     def is_facebook_icon_visible(self):
-        if self.driver.find_element(*self.__facebook_icon).is_displayed():
-            return True
-        else:
-            return False
+        return self.driver.find_element(*self.__facebook_icon).is_displayed()
 
     def is_linkedin_icon_visible(self):
-        try:
-            if self.driver.find_element(*self.__facebook_icon).is_displayed():
-                return True
-        except NoSuchElementException:
-            return False
+        return self.driver.find_element(*self.__linkedin_icon).is_displayed()
 
     def is_remember_me_visible(self):
-        try:
-            if self.driver.find_element(*self.__remember_me).is_displayed():
-                return True
-        except NoSuchElementException:
-            return False
+        return self.driver.find_element(*self.__remember_me).is_displayed()
 
     def login_user(self, username, password):
         username_field = self.driver.find_element(*self.__username)

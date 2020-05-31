@@ -48,14 +48,14 @@ def batch_info():
 
 @pytest.fixture(name="runner", scope="session")
 def runner_setup():
-    """One test runner for all tests. Print test results in the end of execution."""
+    """One test runner for all tests."""
     runner = ClassicRunner()
     yield runner
 
 
 @pytest.fixture(name="eyes", scope="function")
-def eyes_setup(runner, batch_info, request):
-    """Basic Eyes setup. It'll abort test if wasn't closed properly."""
+def eyes_setup(runner, batch_info):
+    """Basic Eyes setup."""
     eyes = Eyes(runner)
     eyes.api_key = os.getenv("APPLITOOLS_API_KEY")
     eyes.configure.batch = batch_info
