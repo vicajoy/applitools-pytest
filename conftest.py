@@ -30,8 +30,18 @@ def browser(request):
         driver.get(url)
     else:
         raise Exception(f"{request.param} is not supported.")
+    failed_before = request.session.testsfailed
     yield driver
+    if request.session.testsfailed != failed_before:
+        test_name = request.node.name
+        take_screenshot(driver, test_name)
     driver.quit()
+
+
+def take_screenshot(browser, test_name):
+    """Takes screenshot in case of test failure."""
+    screenshot_file_path = "screenshots/{}.png".format(test_name)
+    browser.save_screenshot(screenshot_file_path)
 
 
 @pytest.fixture
